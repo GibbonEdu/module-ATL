@@ -28,8 +28,9 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_manage_add.php') =
     echo __($guid, 'You do not have access to this action.');
     echo '</div>';
 } else {
-    $gibbonCourseClassID = $_GET['gibbonCourseClassID'];
-    if ($gibbonCourseClassID == '') { echo "<div class='error'>";
+    $gibbonCourseClassID = $_GET['gibbonCourseClassID'] ?? '';
+    if ($gibbonCourseClassID == '') {
+        echo "<div class='error'>";
         echo __($guid, 'You have not specified one or more required parameters.');
         echo '</div>';
     } else {
@@ -49,9 +50,9 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_manage_add.php') =
         } else {
             $class = $result->fetch();
 
-            echo "<div class='trail'>";
-            echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>".__($guid, 'Home')."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".__($guid, getModuleName($_GET['q']))."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/atl_manage.php&gibbonCourseClassID='.$_GET['gibbonCourseClassID']."'>".__($guid, 'Manage').' '.$class['course'].'.'.$class['class'].' '.__($guid, 'ATLs')."</a> > </div><div class='trailEnd'>".__($guid, 'Add Multiple Columns').'</div>';
-            echo '</div>';
+            $page->breadcrumbs
+              ->add(__('Manage {courseClass} ATLs', ['courseClass' => $class['course'].'.'.$class['class']]), 'atl_manage.php', ['gibbonCourseClassID' => $gibbonCourseClassID])
+              ->add(__('Add Multiple Columns'));
 
             if (isset($_GET['return'])) {
                 returnProcess($guid, $_GET['return'], null, null);
@@ -99,9 +100,9 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_manage_add.php') =
                 $rubrics = $row->addSelect('gibbonRubricID')->fromQuery($pdo, $sql, $data, 'groupBy')->placeholder();
 
                 // Look for and select an Approach to Learning rubric
-                $rubrics->selected(array_reduce($rubrics->getOptions(), function($result, $items) {
+                $rubrics->selected(array_reduce($rubrics->getOptions(), function ($result, $items) {
                     foreach ($items as $key => $value) {
-                        if (stripos($value, 'Approach to Learning') !== false) $result = $key;
+                        $result = (stripos($value, 'Approach to Learning') === false) ? $result : $key;
                     }
                     return $result;
                 }, false));

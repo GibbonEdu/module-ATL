@@ -31,14 +31,13 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
 } else {
     //Get action with highest precendence
     $highestAction = getHighestGroupedAction($guid, $_GET['q'], $connection2);
-    if ($highestAction == false) { echo "<div class='error'>";
+    if ($highestAction == false) {
+        echo "<div class='error'>";
         echo __($guid, 'The highest grouped action cannot be determined.');
         echo '</div>';
     } else {
         if ($highestAction == 'View ATLs_all') { //ALL STUDENTS
-            echo "<div class='trail'>";
-            echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>".__($guid, 'Home')."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".__($guid, getModuleName($_GET['q']))."</a> > </div><div class='trailEnd'>".__($guid, 'View All ATLs').'</div>';
-            echo '</div>';
+            $page->breadcrumbs->add(__('View All ATLs'));
 
             $gibbonPersonID = null;
             if (isset($_GET['gibbonPersonID'])) {
@@ -50,18 +49,18 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
             echo '</h3>';
 
             $form = Form::create("filter", $_SESSION[$guid]['absoluteURL']."/index.php", "get", "noIntBorder fullWidth standardForm");
-			$form->setFactory(DatabaseFormFactory::create($pdo));
-			
-			$form->addHiddenValue('q', '/modules/ATL/atl_view.php');
-			$form->addHiddenValue('address', $_SESSION[$guid]['address']);
+            $form->setFactory(DatabaseFormFactory::create($pdo));
+
+            $form->addHiddenValue('q', '/modules/ATL/atl_view.php');
+            $form->addHiddenValue('address', $_SESSION[$guid]['address']);
 
             $row = $form->addRow();
                 $row->addLabel('gibbonPersonID', __('Student'));
-				$row->addSelectStudent('gibbonPersonID', $_SESSION[$guid]["gibbonSchoolYearID"], array())->selected($gibbonPersonID)->placeholder();
-				
+                $row->addSelectStudent('gibbonPersonID', $_SESSION[$guid]["gibbonSchoolYearID"], array())->selected($gibbonPersonID)->placeholder();
+
             $row = $form->addRow();
-				$row->addSearchSubmit($gibbon->session);
-				
+                $row->addSearchSubmit($gibbon->session);
+
             echo $form->getOutput();
 
             if (!empty($gibbonPersonID)) {
@@ -88,9 +87,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
                 }
             }
         } elseif ($highestAction == 'View ATLs_myChildrens') { //MY CHILDREN
-            echo "<div class='trail'>";
-            echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>".__($guid, 'Home')."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".__($guid, getModuleName($_GET['q']))."</a> > </div><div class='trailEnd'>".__($guid, 'View My Childrens\'s ATLs').'</div>';
-            echo '</div>';
+            $page->breadcrumbs->add(__('View My Childrens\'s ATLs'));
 
             //Test data access field for permission
             try {
@@ -150,7 +147,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
                         $row->addSearchSubmit($gibbon->session);
                         
                     echo $form->getOutput();
-			    }
+                }
 
                 $showParentAttainmentWarning = getSettingByScope($connection2, 'Markbook', 'showParentAttainmentWarning');
                 $showParentEffortWarning = getSettingByScope($connection2, 'Markbook', 'showParentEffortWarning');
@@ -176,9 +173,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
                 }
             }
         } else { //My ATLS
-            echo "<div class='trail'>";
-            echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>".__($guid, 'Home')."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".__($guid, getModuleName($_GET['q']))."</a> > </div><div class='trailEnd'>".__($guid, 'View My ATLs').'</div>';
-            echo '</div>';
+            $page->breadcrumbs->add(__('View My ATLs'));
 
             echo '<h3>';
             echo __($guid, 'ATLs');
@@ -188,4 +183,3 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
         }
     }
 }
-?>

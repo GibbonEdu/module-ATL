@@ -42,7 +42,8 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
 } else {
     //Get action with highest precendence
     $highestAction = getHighestGroupedAction($guid, $_GET['q'], $connection2);
-    if ($highestAction == false) { echo "<div class='error'>";
+    if ($highestAction == false) {
+        echo "<div class='error'>";
         echo __($guid, 'The highest grouped action cannot be determined.');
         echo '</div>';
     } else {
@@ -69,15 +70,12 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
             }
         }
         if ($gibbonCourseClassID == '') {
-            echo "<div class='trail'>";
-            echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>".__($guid, 'Home')."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".__($guid, getModuleName($_GET['q']))."</a> > </div><div class='trailEnd'>".__($guid, 'Write ATLs').'</div>';
-            echo '</div>';
+            $page->breadcrumbs->add(__('Write ATLs'));
             echo "<div class='warning'>";
             echo 'Use the class listing on the right to choose an ATL to write.';
             echo '</div>';
-        }
-        //Check existence of and access to this class.
-        else {
+        } else {
+            //Check existence of and access to this class.
             try {
                 if ($highestAction == 'Write ATLs_all') {
                     $data = array('gibbonCourseClassID' => $gibbonCourseClassID);
@@ -94,9 +92,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
                 echo "<div class='error'>".$e->getMessage().'</div>';
             }
             if ($result->rowCount() != 1) {
-                echo "<div class='trail'>";
-                echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>".__($guid, 'Home')."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".__($guid, getModuleName($_GET['q']))."</a> > </div><div class='trailEnd'>".__($guid, 'Write ATLs').'</div>';
-                echo '</div>';
+                $page->breadcrumbs->add(__('Write ATLs'));
                 echo "<div class='error'>";
                 echo __($guid, 'The specified record does not exist or you do not have access to it.');
                 echo '</div>';
@@ -104,9 +100,8 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
                 $row = $result->fetch();
                 $courseName = $row['courseName'];
                 $gibbonYearGroupIDList = $row['gibbonYearGroupIDList'];
-                echo "<div class='trail'>";
-                echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>".__($guid, 'Home')."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".__($guid, getModuleName($_GET['q']))."</a> > </div><div class='trailEnd'>Write ".$row['course'].'.'.$row['class'].' ATLs</div>';
-                echo '</div>';
+
+                $page->breadcrumbs->add(__('Write {courseClass} ATLs', ['courseClass' => $row['course'].'.'.$row['class']]));
 
                 if (isset($_GET['deleteReturn'])) {
                     $deleteReturn = $_GET['deleteReturn'];
@@ -269,32 +264,32 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
                         echo __($guid, 'Student');
                         echo '</th>';
 
-						//Show Baseline data header
-						if ($externalAssessment == true) {
-							echo "<th rowspan=2 style='width: 20px'>";
-							$title = __($guid, $externalAssessmentFields[2]).' | ';
-							$title .= __($guid, substr($externalAssessmentFields[3], (strpos($externalAssessmentFields[3], '_') + 1))).' | ';
-							$title .= __($guid, $externalAssessmentFields[1]);
+                        //Show Baseline data header
+                        if ($externalAssessment == true) {
+                            echo "<th rowspan=2 style='width: 20px'>";
+                            $title = __($guid, $externalAssessmentFields[2]).' | ';
+                            $title .= __($guid, substr($externalAssessmentFields[3], (strpos($externalAssessmentFields[3], '_') + 1))).' | ';
+                            $title .= __($guid, $externalAssessmentFields[1]);
 
-								//Get PAS
-								$PAS = getSettingByScope($connection2, 'System', 'primaryAssessmentScale');
-							try {
-								$dataPAS = array('gibbonScaleID' => $PAS);
-								$sqlPAS = 'SELECT * FROM gibbonScale WHERE gibbonScaleID=:gibbonScaleID';
-								$resultPAS = $connection2->prepare($sqlPAS);
-								$resultPAS->execute($dataPAS);
-							} catch (PDOException $e) {
-							}
-							if ($resultPAS->rowCount() == 1) {
-								$rowPAS = $resultPAS->fetch();
-								$title .= ' | '.$rowPAS['name'].' '.__($guid, 'Scale').' ';
-							}
+                                //Get PAS
+                                $PAS = getSettingByScope($connection2, 'System', 'primaryAssessmentScale');
+                            try {
+                                $dataPAS = array('gibbonScaleID' => $PAS);
+                                $sqlPAS = 'SELECT * FROM gibbonScale WHERE gibbonScaleID=:gibbonScaleID';
+                                $resultPAS = $connection2->prepare($sqlPAS);
+                                $resultPAS->execute($dataPAS);
+                            } catch (PDOException $e) {
+                            }
+                            if ($resultPAS->rowCount() == 1) {
+                                $rowPAS = $resultPAS->fetch();
+                                $title .= ' | '.$rowPAS['name'].' '.__($guid, 'Scale').' ';
+                            }
 
-							echo "<div style='-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg); -ms-transform: rotate(-90deg); -o-transform: rotate(-90deg); transform: rotate(-90deg);' title='$title'>";
-							echo __($guid, 'Baseline').'<br/>';
-							echo '</div>';
-							echo '</th>';
-						}
+                            echo "<div style='-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg); -ms-transform: rotate(-90deg); -o-transform: rotate(-90deg); transform: rotate(-90deg);' title='$title'>";
+                            echo __($guid, 'Baseline').'<br/>';
+                            echo '</div>';
+                            echo '</th>';
+                        }
 
                         $columnID = array();
                         for ($i = 0; $i < $columnsThisPage; ++$i) {
@@ -306,8 +301,8 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
                                 $gibbonRubricID[$i] = $row['gibbonRubricID'];
                             }
 
-							//Column count
-							$span = 1;
+                            //Column count
+                            $span = 1;
                             $contents = true;
                             if ($gibbonRubricID[$i] != '') {
                                 ++$span;
@@ -531,8 +526,6 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
                     }
                 }
             }
-
-            
         }
 
         //Print sidebar

@@ -28,7 +28,8 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_manage.php') == fa
 } else {
     //Get action with highest precendence
     $highestAction = getHighestGroupedAction($guid, $_GET['q'], $connection2);
-    if ($highestAction == false) { echo "<div class='error'>";
+    if ($highestAction == false) {
+        echo "<div class='error'>";
         echo __($guid, 'The highest grouped action cannot be determined.');
         echo '</div>';
     } else {
@@ -57,9 +58,8 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_manage.php') == fa
             echo "<div class='warning'>";
             echo __($guid, 'Use the class listing on the right to choose a ATL to edit.');
             echo '</div>';
-        }
-        //Check existence of and access to this class.
-        else {
+        } else {
+            //Check existence of and access to this class.
             try {
                 $data = array('gibbonCourseClassID' => $gibbonCourseClassID);
                 $sql = 'SELECT gibbonCourse.nameShort AS course, gibbonCourseClass.nameShort AS class, gibbonCourseClass.gibbonCourseClassID FROM gibbonCourse, gibbonCourseClass WHERE gibbonCourse.gibbonCourseID=gibbonCourseClass.gibbonCourseID AND gibbonCourseClass.gibbonCourseClassID=:gibbonCourseClassID ORDER BY course, class';
@@ -78,9 +78,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_manage.php') == fa
                 echo '</div>';
             } else {
                 $row = $result->fetch();
-                echo "<div class='trail'>";
-                echo "<div class='trailHead'><a href='".$_SESSION[$guid]['absoluteURL']."'>".__($guid, 'Home')."</a> > <a href='".$_SESSION[$guid]['absoluteURL'].'/index.php?q=/modules/'.getModuleName($_GET['q']).'/'.getModuleEntry($_GET['q'], $connection2, $guid)."'>".__($guid, getModuleName($_GET['q']))."</a> > </div><div class='trailEnd'>".__($guid, 'Manage').' '.$row['course'].'.'.$row['class'].' '.__($guid, 'ATLs').'</div>';
-                echo '</div>';
+                $page->breadcrumbs->add(__('Manage {courseClass} ATLs', ['courseClass' => $row['course'].'.'.$row['class']]));
 
                 if (isset($_GET['deleteReturn'])) {
                     $deleteReturn = $_GET['deleteReturn'];
