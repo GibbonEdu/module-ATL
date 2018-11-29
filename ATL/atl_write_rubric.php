@@ -25,7 +25,7 @@ include './modules/Rubrics/moduleFunctions.php';
 if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == false) {
     //Acess denied
     echo "<div class='error'>";
-    echo __($guid, 'Your request failed because you do not have access to this action.');
+    echo __('Your request failed because you do not have access to this action.');
     echo '</div>';
 } else {
     //Proceed!
@@ -35,7 +35,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
     $gibbonPersonID = $_GET['gibbonPersonID'];
     $gibbonRubricID = $_GET['gibbonRubricID'];
     if ($gibbonCourseClassID == '' or $atlColumnID == '' or $gibbonPersonID == '' or $gibbonRubricID == '') { echo "<div class='error'>";
-        echo __($guid, 'You have not specified one or more required parameters.');
+        echo __('You have not specified one or more required parameters.');
         echo '</div>';
     } else {
         $roleCategory = getRoleCategory($_SESSION[$guid]['gibbonRoleIDPrimary'], $connection2);
@@ -65,7 +65,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
 
         if ($result->rowCount() != 1) {
             echo "<div class='error'>";
-            echo __($guid, 'The selected record does not exist, or you do not have access to it.');
+            echo __('The selected record does not exist, or you do not have access to it.');
             echo '</div>';
         } else {
             try {
@@ -79,7 +79,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
 
             if ($result2->rowCount() != 1) {
                 echo "<div class='error'>";
-                echo __($guid, 'The selected record does not exist, or you do not have access to it.');
+                echo __('The selected record does not exist, or you do not have access to it.');
                 echo '</div>';
             } else {
                 try {
@@ -93,7 +93,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
 
                 if ($result3->rowCount() != 1) {
                     echo "<div class='error'>";
-                    echo __($guid, 'The specified record does not exist.');
+                    echo __('The specified record does not exist.');
                     echo '</div>';
                 } else {
                     try {
@@ -107,7 +107,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
 
                     if ($result4->rowCount() != 1) {
                         echo "<div class='error'>";
-                        echo __($guid, 'The selected record does not exist, or you do not have access to it.');
+                        echo __('The selected record does not exist, or you do not have access to it.');
                         echo '</div>';
                     } else {
                         //Let's go!

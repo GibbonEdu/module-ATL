@@ -27,14 +27,14 @@ include './modules/'.$_SESSION[$guid]['module'].'/moduleFunctions.php';
 if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == false) {
     //Acess denied
     echo "<div class='error'>";
-    echo __($guid, 'Your request failed because you do not have access to this action.');
+    echo __('Your request failed because you do not have access to this action.');
     echo '</div>';
 } else {
     //Get action with highest precendence
     $highestAction = getHighestGroupedAction($guid, $_GET['q'], $connection2);
     if ($highestAction == false) {
         echo "<div class='error'>";
-        echo __($guid, 'The highest grouped action cannot be determined.');
+        echo __('The highest grouped action cannot be determined.');
         echo '</div>';
     } else {
         if ($highestAction == 'View ATLs_all') { //ALL STUDENTS
@@ -46,7 +46,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
             }
 
             echo '<h3>';
-            echo __($guid, 'Choose A Student');
+            echo __('Choose A Student');
             echo '</h3>';
 
             $form = Form::create("filter", $_SESSION[$guid]['absoluteURL']."/index.php", "get", "noIntBorder fullWidth standardForm");
@@ -66,7 +66,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
 
             if (!empty($gibbonPersonID)) {
                 echo '<h3>';
-                echo __($guid, 'ATLs');
+                echo __('ATLs');
                 echo '</h3>';
 
                 //Check for access
@@ -81,7 +81,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
 
                 if ($resultCheck->rowCount() != 1) {
                     echo "<div class='error'>";
-                    echo __($guid, 'The selected record does not exist, or you do not have access to it.');
+                    echo __('The selected record does not exist, or you do not have access to it.');
                     echo '</div>';
                 } else {
                     echo getATLRecord($guid, $connection2, $gibbonPersonID);
@@ -102,7 +102,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
 
             if ($result->rowCount() < 1) {
                 echo "<div class='error'>";
-                echo __($guid, 'Access denied.');
+                echo __('Access denied.');
                 echo '</div>';
             } else {
                 //Get child list
@@ -124,7 +124,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
 
                 if (count($options) == 0) {
                     echo "<div class='error'>";
-                    echo __($guid, 'Access denied.');
+                    echo __('Access denied.');
                     echo '</div>';
                 } elseif (count($options) == 1) {
                     $gibbonPersonID = key($options);
@@ -165,7 +165,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
                     }
                     if ($resultChild->rowCount() < 1) {
                         echo "<div class='error'>";
-                        echo __($guid, 'The selected record does not exist, or you do not have access to it.');
+                        echo __('The selected record does not exist, or you do not have access to it.');
                         echo '</div>';
                     } else {
                         $rowChild = $resultChild->fetch();
@@ -177,7 +177,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
             $page->breadcrumbs->add(__('View My ATLs'));
 
             echo '<h3>';
-            echo __($guid, 'ATLs');
+            echo __('ATLs');
             echo '</h3>';
 
             echo getATLRecord($guid, $connection2, $_SESSION[$guid]['gibbonPersonID']);

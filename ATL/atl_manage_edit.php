@@ -25,14 +25,14 @@ include './modules/'.$_SESSION[$guid]['module'].'/moduleFunctions.php';
 if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_manage_edit.php') == false) {
     //Acess denied
     echo "<div class='error'>";
-    echo __($guid, 'You do not have access to this action.');
+    echo __('You do not have access to this action.');
     echo '</div>';
 } else {
     //Get action with highest precendence
     $highestAction = getHighestGroupedAction($guid, $_GET['q'], $connection2);
     if ($highestAction == false) {
         echo "<div class='error'>";
-        echo __($guid, 'The highest grouped action cannot be determined.');
+        echo __('The highest grouped action cannot be determined.');
         echo '</div>';
     } else {
         //Check if school year specified
@@ -40,7 +40,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_manage_edit.php') 
         $atlColumnID = $_GET['atlColumnID'] ?? '';
         if ($gibbonCourseClassID == '' or $atlColumnID == '') {
             echo "<div class='error'>";
-            echo __($guid, 'You have not specified one or more required parameters.');
+            echo __('You have not specified one or more required parameters.');
             echo '</div>';
         } else {
             try {
@@ -54,7 +54,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_manage_edit.php') 
 
             if ($result->rowCount() != 1) {
                 echo "<div class='error'>";
-                echo __($guid, 'The selected record does not exist, or you do not have access to it.');
+                echo __('The selected record does not exist, or you do not have access to it.');
                 echo '</div>';
             } else {
                 try {
@@ -68,7 +68,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_manage_edit.php') 
 
                 if ($result2->rowCount() != 1) {
                     echo "<div class='error'>";
-                    echo __($guid, 'The selected record does not exist, or you do not have access to it.');
+                    echo __('The selected record does not exist, or you do not have access to it.');
                     echo '</div>';
                 } else {
                     //Let's go!
