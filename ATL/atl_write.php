@@ -17,6 +17,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+use Gibbon\Services\Format;
+
 //Module includes
 include './modules/'.$_SESSION[$guid]['module'].'/moduleFunctions.php';
 
@@ -137,7 +139,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
                     echo '</h3>';
                     echo '<ul>';
                     while ($row = $result->fetch()) {
-                        echo '<li>'.formatName($row['title'], $row['preferredName'], $row['surname'], 'Staff').'</li>';
+                        echo '<li>'.Format::name($row['title'], $row['preferredName'], $row['surname'], 'Staff').'</li>';
                         if ($row['gibbonPersonID'] == $_SESSION[$guid]['gibbonPersonID']) {
                             $teaching = true;
                         }
@@ -388,7 +390,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
                                 //COLOR ROW BY STATUS!
                                 echo "<tr class=$rowNum>";
                                 echo '<td>';
-                                echo "<div style='padding: 2px 0px'><b><a href='index.php?q=/modules/Students/student_view_details.php&gibbonPersonID=".$rowStudents['gibbonPersonID']."&hook=ATL&module=ATL&action=$highestAction&gibbonHookID=$gibbonHookID#".$gibbonCourseClassID."'>".formatName('', $rowStudents['preferredName'], $rowStudents['surname'], 'Student', true).'</a><br/></div>';
+                                echo "<div style='padding: 2px 0px'><b><a href='index.php?q=/modules/Students/student_view_details.php&gibbonPersonID=".$rowStudents['gibbonPersonID']."&hook=ATL&module=ATL&action=$highestAction&gibbonHookID=$gibbonHookID#".$gibbonCourseClassID."'>".Format::name('', $rowStudents['preferredName'], $rowStudents['surname'], 'Student', true).'</a><br/></div>';
                                 echo '</td>';
 
                                 if ($externalAssessment == true) {
