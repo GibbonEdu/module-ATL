@@ -17,49 +17,35 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+use Gibbon\Domain\System\HookGateway;
 use Gibbon\Services\Format;
 
 //Module includes
-include './modules/'.$session->get('module').'/moduleFunctions.php';
-
-//Get gibbonHookID
-$gibbonHookID = null;
-try {
-    $data = array();
-    $sql = "SELECT gibbonHookID FROM gibbonHook WHERE type='Student Profile' AND name='ATL'";
-    $result = $connection2->prepare($sql);
-    $result->execute($data);
-} catch (PDOException $e) {
-}
-if ($result->rowCount() == 1) {
-    $row = $result->fetch();
-    $gibbonHookID = $row['gibbonHookID'];
-}
+require_once __DIR__ . '/moduleFunctions.php';
 
 if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == false) {
     //Acess denied
-    echo "<div class='error'>";
-    echo __('Your request failed because you do not have access to this action.');
-    echo '</div>';
+    $page->addError(__('Your request failed because you do not have access to this action.'));
 } else {
+    //Get gibbonHookID
+    $hookGateway = $container->get(HookGateway::class);
+    $hook = $hookGateway->selectBy(['type' => 'Student Profile', 'name' => 'ATL']);
+    if ($hook->isNotEmpty()) {
+        $row = $hook->fetch();
+        $gibbonHookID = $row['gibbonHookID'];
+    }
+
     // Register scripts available to the core, but not included by default
     $page->scripts->add('chart');
 
     //Get action with highest precendence
     $highestAction = getHighestGroupedAction($guid, $_GET['q'], $connection2);
     if ($highestAction == false) {
-        echo "<div class='error'>";
-        echo __('The highest grouped action cannot be determined.');
-        echo '</div>';
+        $page->addError(__('The highest grouped action cannot be determined.'));
     } else {
-        $alert = getAlert($guid, $connection2, 002);
-
         //Proceed!
         //Get class variable
-        $gibbonCourseClassID = null;
-        if (isset($_GET['gibbonCourseClassID'])) {
-            $gibbonCourseClassID = $_GET['gibbonCourseClassID'];
-        }
+        $gibbonCourseClassID = $_GET['gibbonCourseClassID'] ?? '';
         if ($gibbonCourseClassID == '') {
             try {
                 $data = array('gibbonSchoolYearID' => $session->get('gibbonSchoolYearID'), 'gibbonPersonID' => $session->get('gibbonPersonID'));
@@ -298,7 +284,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
                             echo '</th>';
                         }
 
-                        $columnID = array();
+                        $columnID = [];
                         for ($i = 0; $i < $columnsThisPage; ++$i) {
                             $row = $result->fetch();
                             if ($row === false) {
@@ -321,13 +307,21 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
                             echo "<th style='text-align: center; min-width: 140px' colspan=$span>";
                             echo "<span title='".htmlPrep($row['description'])."'>".$row['name'].'</span><br/>';
                             echo "<span style='font-size: 90%; font-style: italic; font-weight: normal'>";
-                            if ($row['completeDate'] != '') {
-                                echo __('Marked on').' '.dateConvertBack($guid, $row['completeDate']).'<br/>';
+                            if ($row['forStudents'] == 'Y') {
+                                if ($row['completeDate'] != '') {
+                                    echo __('Due on').' '.dateConvertBack($guid, $row['completeDate']).'<br/>';
+                                } else {
+                                    echo __('Incomplete').'<br/>';
+                                }
                             } else {
-                                echo __('Unmarked').'<br/>';
+                                if ($row['completeDate'] != '') {
+                                    echo __('Marked on').' '.dateConvertBack($guid, $row['completeDate']).'<br/>';
+                                } else {
+                                    echo __('Unmarked').'<br/>';
+                                }
                             }
                             echo '</span><br/>';
-                            if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write_data.php')) {
+                            if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write_data.php') && $row['forStudents'] == 'N') { //TODO: Change for students check to be more sensible
                                 echo "<a href='".$session->get('absoluteURL')."/index.php?q=/modules/ATL/atl_write_data.php&gibbonCourseClassID=$gibbonCourseClassID&atlColumnID=".$row['atlColumnID']."'><img style='margin-top: 3px' title='".__('Enter Data')."' src='./themes/".$session->get('gibbonThemeName')."/img/markbook.png'/></a> ";
                             }
                             echo '</th>';
@@ -536,6 +530,6 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
         }
 
         //Print sidebar
-        $session->set('sidebarExtra', sidebarExtra($guid, $connection2, $gibbonCourseClassID, 'write', $highestAction));
+        $session->set('sidebarExtra', sidebarExtra($gibbonCourseClassID, 'write'));
     }
 }

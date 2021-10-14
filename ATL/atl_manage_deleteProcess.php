@@ -17,59 +17,46 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+use Gibbon\Module\ATL\Domain\ATLColumnGateway;
+use Gibbon\Module\ATL\Domain\ATLEntryGateway;
+
 include '../../gibbon.php';
 
-
-$gibbonCourseClassID = $_POST['gibbonCourseClassID'];
-$atlColumnID = $_GET['atlColumnID'];
-$URL = $session->get('absoluteURL').'/index.php?q=/modules/'.getModuleName($_POST['address'])."/atl_manage_delete.php&atlColumnID=$atlColumnID&gibbonCourseClassID=$gibbonCourseClassID";
-$URLDelete = $session->get('absoluteURL').'/index.php?q=/modules/'.getModuleName($_POST['address'])."/atl_manage.php&gibbonCourseClassID=$gibbonCourseClassID";
+$gibbonCourseClassID = $_POST['gibbonCourseClassID'] ?? '';
+$atlColumnID = $_POST['atlColumnID'] ?? '';
+$URL = $session->get('absoluteURL').'/index.php?q=/modules/ATL/atl_manage.php&gibbonCourseClassID=' . $gibbonCourseClassID;
 
 if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_manage_delete.php') == false) {
     //Fail 0
     $URL .= '&return=error0';
     header("Location: {$URL}");
+    exit();
 } else {
     //Proceed!
-    //Check if school year specified
-    if ($atlColumnID == '' or $gibbonCourseClassID == '') {
-        //Fail1
+    $atlColumnGateway = $container->get(ATLColumnGateway::class);
+
+    if (!$atlColumnGateway->exists($atlColumnID)) {
         $URL .= '&return=error1';
         header("Location: {$URL}");
+        exit();
     } else {
-        try {
-            $data = array('atlColumnID' => $atlColumnID, 'gibbonCourseClassID' => $gibbonCourseClassID);
-            $sql = 'SELECT * FROM atlColumn WHERE atlColumnID=:atlColumnID AND gibbonCourseClassID=:gibbonCourseClassID';
-            $result = $connection2->prepare($sql);
-            $result->execute($data);
-        } catch (PDOException $e) {
-            //Fail2
+        //Write to database
+        if (!$atlColumnGateway->delete($atlColumnID)) {
             $URL .= '&return=error2';
             header("Location: {$URL}");
             exit();
         }
 
-        if ($result->rowCount() != 1) {
-            //Fail 2
-            $URL .= '&return=error2';
+        $atlEntryGateway = $container->get(ATLEntryGateway::class);
+        if (!$atlEntryGateway->deleteWhere(['atlColumnID' => $atlColumnID])) {
+            $URL .= '&return=warning1';
             header("Location: {$URL}");
-        } else {
-            //Write to database
-            try {
-                $data = array('atlColumnID' => $atlColumnID);
-                $sql = 'DELETE FROM atlColumn WHERE atlColumnID=:atlColumnID';
-                $result = $connection2->prepare($sql);
-                $result->execute($data);
-            } catch (PDOException $e) {
-                //Fail 2
-                $URL .= '&return=error2';
-                header("Location: {$URL}");
-                exit();
-            }
-
-            //Success 0
-            $URLDelete = $URLDelete.'&return=success0';
-            header("Location: {$URLDelete}");
+            exit();
         }
+
+        //Success 0
+        $URL .= '&return=success0';
+        header("Location: {$URL}");
+        exit();
     }
 }
