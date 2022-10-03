@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-global $page;
+global $page, $container;
 
 $returnInt = null;
 
@@ -31,7 +31,9 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
 } else {
     // Register scripts available to the core, but not included by default
     $page->scripts->add('chart');
-    
+
+    $returnInt .= visualiseATL($container, $session->get('gibbonPersonID'));
+
     $returnInt .= getATLRecord($guid, $connection2, $session->get('gibbonPersonID'));
 }
 

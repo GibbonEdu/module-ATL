@@ -1,8 +1,30 @@
 CHANGELOG
 =========
-v1.5.06
+v1.5.11
 -------
 Refactoring null coalesce 
+
+=======
+v1.5.10
+-------
+Fixed visualization showing data that has not gone live
+Added a Go Live date reminder to the Write ATL page
+
+v1.5.09
+-------
+Fixed student and parent PHP dashboard warning and exception
+
+v1.5.08
+-------
+Final refactoring of linkTop divs
+
+v1.5.07
+-------
+Refactoring of linkTop divs
+
+v1.5.06
+-------
+Added ATL chart to the dashboard tabs and View ATLs page
 
 v1.5.05
 -------
