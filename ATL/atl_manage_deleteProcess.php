@@ -23,7 +23,7 @@ include '../../gibbon.php';
 
 
 $gibbonCourseClassID = $_POST['gibbonCourseClassID'] ?? '';
-$atlColumnID = $_GET['atlColumnID'] ?? '';
+$atlColumnID = $_POST['atlColumnID'] ?? '';
 $URL = $session->get('absoluteURL').'/index.php?q=/modules/'.getModuleName($_POST['address'])."/atl_manage_delete.php&atlColumnID=$atlColumnID&gibbonCourseClassID=$gibbonCourseClassID";
 $URLDelete = $session->get('absoluteURL').'/index.php?q=/modules/'.getModuleName($_POST['address'])."/atl_manage.php&gibbonCourseClassID=$gibbonCourseClassID";
 
