@@ -120,7 +120,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write_data.php') =
                         $form->addRow()->addHeading(__('Students'));
                         $form->addRow()->addAlert(__('There are no records to display.'), 'error');
                     } else {
-                        $table = $form->addRow()->setClass('p-0')->addTable()->setClass('smallIntBorder fullWidth colorOddEven noMargin noPadding noBorder');
+                        $table = $form->addRow()->setClass('p-0')->addTable()->setClass('smallIntBorder w-full colorOddEven noMargin noPadding noBorder');
 
                         $completeText = !empty($values['completeDate'])? __('Marked on').' '.Format::date($values['completeDate']) : __('Unmarked');
 

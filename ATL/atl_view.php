@@ -52,7 +52,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
             echo __('Choose A Student');
             echo '</h3>';
 
-            $form = Form::create("filter", $session->get('absoluteURL').'/index.php', 'get', 'noIntBorder fullWidth');
+            $form = Form::create("filter", $session->get('absoluteURL').'/index.php', 'get', 'noIntBorder w-full');
             $form->setFactory(DatabaseFormFactory::create($pdo));
 
             $form->addHiddenValue('q', '/modules/ATL/atl_view.php');
@@ -144,7 +144,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
 
                     $gibbonPersonID = (isset($_GET['gibbonPersonID']))? $_GET['gibbonPersonID'] : null;
 
-                    $form = Form::create("filter", $session->get('absoluteURL')."/index.php", "get", "noIntBorder fullWidth standardForm");
+                    $form = Form::create("filter", $session->get('absoluteURL')."/index.php", "get", "noIntBorder w-full standardForm");
                     $form->setFactory(DatabaseFormFactory::create($pdo));
 
                     $form->addHiddenValue('q', '/modules/ATL/atl_view.php');
