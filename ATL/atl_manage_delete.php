@@ -66,8 +66,9 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_manage_delete.php'
                     ->add(__('Manage {courseClass} ATLs', ['courseClass' => $row['course'].'.'.$row['class']]), 'atl_manage.php', ['gibbonCourseClassID' => $gibbonCourseClassID])
                     ->add(__('Delete Column'));
 
-                $form = DeleteForm::createForm($session->get('absoluteURL').'/modules/'.$session->get('module').'/atl_manage_deleteProcess.php?atlColumnID='.$atlColumnID);
+                $form = DeleteForm::createForm($session->get('absoluteURL').'/modules/'.$session->get('module').'/atl_manage_deleteProcess.php');
                 $form->addHiddenValue('gibbonCourseClassID', $gibbonCourseClassID);
+                $form->addHiddenValue('atlColumnID', $atlColumnID);
                 echo $form->getOutput();
             }
         }

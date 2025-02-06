@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+
+v1.6.03
+-------
+Update deletion actions to POST from GET
+
 v1.6.02
 -------
 Fixed JS bug introduced in ownership transfer
