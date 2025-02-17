@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+v1.6.04
+-------
+Fix sidebarExtra function namespace clash with other modules
+
 v1.6.03
 -------
 Update deletion actions to POST from GET

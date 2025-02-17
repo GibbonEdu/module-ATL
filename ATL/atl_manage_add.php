@@ -113,5 +113,5 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_manage_add.php') =
         }
     }
     //Print sidebar
-    $session->set('sidebarExtra', sidebarExtra($guid, $connection2, $gibbonCourseClassID, 'manage', 'Manage ATLs_all'));
+    $session->set('sidebarExtra', sidebarExtraATL($guid, $connection2, $gibbonCourseClassID, 'manage', 'Manage ATLs_all'));
 }

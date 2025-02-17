@@ -122,7 +122,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_manage_edit.php') 
             }
 
             //Print sidebar
-            $session->set('sidebarExtra', sidebarExtra($guid, $connection2, $gibbonCourseClassID, 'manage', $highestAction));
+            $session->set('sidebarExtra', sidebarExtraATL($guid, $connection2, $gibbonCourseClassID, 'manage', $highestAction));
         }
     }
 }

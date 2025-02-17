@@ -536,6 +536,6 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
         }
 
         //Print sidebar
-        $session->set('sidebarExtra', sidebarExtra($guid, $connection2, $gibbonCourseClassID, 'write', $highestAction));
+        $session->set('sidebarExtra', sidebarExtraATL($guid, $connection2, $gibbonCourseClassID, 'write', $highestAction));
     }
 }
