@@ -53,7 +53,7 @@ if (php_sapi_name() != 'cli') {
 			FROM gibbonCourseClassPerson
 				JOIN gibbonPerson ON (gibbonCourseClassPerson.gibbonPersonID=gibbonPerson.gibbonPersonID)
 				JOIN gibbonCourseClass ON (gibbonCourseClassPerson.gibbonCourseClassID=gibbonCourseClass.gibbonCourseClassID)
-			WHERE (role='Teacher' OR role='Assistant' OR role='Student')
+			WHERE (role='Teacher' OR role='Student')
 				AND gibbonCourseClassPerson.gibbonCourseClassID=:gibbonCourseClassID
 				AND gibbonPerson.status='Full' AND (dateStart IS NULL OR dateStart<=:today) AND (dateEnd IS NULL  OR dateEnd>=:today)
 				AND gibbonCourseClass.reportable='Y'
