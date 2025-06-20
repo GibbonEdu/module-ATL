@@ -63,7 +63,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
                 $row->addSelectStudent('gibbonPersonID', $session->get("gibbonSchoolYearID"), array())->selected($gibbonPersonID)->placeholder();
 
             $row = $form->addRow();
-                $row->addSearchSubmit($gibbon->session);
+                $row->addSearchSubmit($session);
               
 
             echo $form->getOutput();
@@ -154,7 +154,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
                         $row->addSelect('gibbonPersonID')->fromArray($options)->selected($gibbonPersonID);
 
                     $row = $form->addRow();
-                        $row->addSearchSubmit($gibbon->session);
+                        $row->addSearchSubmit($session);
 
                     echo $form->getOutput();
                 }

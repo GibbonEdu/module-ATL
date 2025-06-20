@@ -27,7 +27,7 @@ $description = 'The ATL module allows schools to run a program of Approaches To 
 $entryURL = 'atl_write.php';
 $type = 'Additional';
 $category = 'Assess';
-$version = '1.6.04';
+$version = '1.6.05';
 $author = "Gibbon Foundation";
 $url = "https://gibbonedu.org";
 
