@@ -38,7 +38,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_view.php') == fals
         echo __('You have not specified one or more required parameters.');
         echo '</div>';
     } else {
-        $roleCategory = getRoleCategory($session->get('gibbonRoleIDPrimary'), $connection2);
+        $roleCategory = $session->get('gibbonRoleIDCurrentCategory');
         $contextDBTableGibbonRubricIDField = 'gibbonRubricID';
         if ($_GET['type'] == 'attainment') {
             $contextDBTableGibbonRubricIDField = 'gibbonRubricIDAttainment';

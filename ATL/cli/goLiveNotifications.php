@@ -26,8 +26,6 @@ require getcwd().'/../../../gibbon.php';
 
 getSystemSettings($guid, $connection2);
 
-setCurrentSchoolYear($guid, $connection2);
-
 //Set up for i18n via gettext
 if (!empty($session->get('i18n')['code'])) { 
     putenv('LC_ALL='.$session->get('i18n')['code']);

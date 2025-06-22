@@ -21,6 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 use Gibbon\Services\Format;
 use Gibbon\Domain\System\SettingGateway;
+use Gibbon\Domain\System\AlertLevelGateway;
 
 //Module includes
 include './modules/'.$session->get('module').'/moduleFunctions.php';
@@ -55,7 +56,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
         echo __('The highest grouped action cannot be determined.');
         echo '</div>';
     } else {
-        $alert = getAlert($guid, $connection2, 002);
+        $alert = $container->get(AlertLevelGateway::class)->getByID(AlertLevelGateway::LEVEL_MEDIUM);
 
         //Proceed!
         //Get class variable

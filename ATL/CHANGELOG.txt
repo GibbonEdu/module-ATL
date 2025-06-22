@@ -3,6 +3,7 @@ CHANGELOG
 v1.6.05
 -------
 Replaced $gibbon->session to $session as "$gibbon->session" is deprecated
+Replaced deprecated getRoleCategory, getAlert functions
 
 v1.6.04
 -------
