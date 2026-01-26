@@ -157,7 +157,7 @@ function sidebarExtraATL($guid, $connection2, $gibbonCourseClassID, $mode = 'man
         $row->addSelectClass('gibbonCourseClassID', $session->get('gibbonSchoolYearID'), $session->get('gibbonPersonID'))
             ->selected($gibbonCourseClassID)
             ->placeholder()
-            ->setClass('w-full');
+            ->setClass('w-full min-w-0 flex-1');
         $row->addSubmit(__('Go'));
 
     $output .= $form->getOutput();
