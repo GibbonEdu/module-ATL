@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+
+v1.6.06
+-------
+Fix sidebarExtra function to display class name correctly
+
 v1.6.05
 -------
 Replaced $gibbon->session to $session as "$gibbon->session" is deprecated
