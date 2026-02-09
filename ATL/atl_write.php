@@ -329,7 +329,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
                             }
                             echo '</span><br/>';
                             if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write_data.php')) {
-                                echo "<a href='".$session->get('absoluteURL')."/index.php?q=/modules/ATL/atl_write_data.php&gibbonCourseClassID=$gibbonCourseClassID&atlColumnID=".$row['atlColumnID']."'><img style='margin-top: 3px' title='".__('Enter Data')."' src='./themes/".$session->get('gibbonThemeName')."/img/markbook.png'/></a> ";
+                                echo "<a href='".$session->get('absoluteURL')."/index.php?q=/modules/ATL/atl_write_data.php&gibbonCourseClassID=$gibbonCourseClassID&atlColumnID=".$row['atlColumnID']."' title='".__('Enter Data')."'>".icon('solid', 'markbook', 'size-6 text-gray-500 hover:text-gray-700')."</a> ";
                             }
                             echo '</th>';
                         }
@@ -452,7 +452,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write.php') == fal
                                             }
                                             echo "<td style='$leftBorderStyle text-align: center;'>";
                                             if ($gibbonRubricID[$i] != '') {
-                                                echo "<a class='thickbox' href='".$session->get('absoluteURL').'/fullscreen.php?q=/modules/ATL/atl_write_rubric.php&gibbonRubricID='.$gibbonRubricID[$i]."&gibbonCourseClassID=$gibbonCourseClassID&atlColumnID=".$columnID[$i].'&gibbonPersonID='.$rowStudents['gibbonPersonID']."&mark=FALSE&type=effort&width=1100&height=550'><img style='margin-bottom: -3px; margin-left: 3px' title='".__('View Rubric')."' src='./themes/".$session->get('gibbonThemeName')."/img/rubric.png'/></a>";
+                                                echo "<a class='thickbox' href='".$session->get('absoluteURL').'/fullscreen.php?q=/modules/ATL/atl_write_rubric.php&gibbonRubricID='.$gibbonRubricID[$i]."&gibbonCourseClassID=$gibbonCourseClassID&atlColumnID=".$columnID[$i].'&gibbonPersonID='.$rowStudents['gibbonPersonID']."&mark=FALSE&type=effort&width=1100&height=550' title='".__('View Rubric')."'>".icon('solid', 'markbook', 'size-5 text-gray-500 hover:text-gray-700')."</a>";
                                             }
                                             echo '</td>';
                                         }

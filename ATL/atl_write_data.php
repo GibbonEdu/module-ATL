@@ -113,6 +113,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write_data.php') =
                     $form = Form::create('internalAssessment', $session->get('absoluteURL').'/modules/'.$session->get('module').'/atl_write_dataProcess.php?gibbonCourseClassID='.$gibbonCourseClassID.'&atlColumnID='.$atlColumnID.'&address='.$session->get('address'));
                     $form->setFactory(DatabaseFormFactory::create($pdo));
                     $form->addHiddenValue('address', $session->get('address'));
+                    $form->addClass('bulkActionForm');
 
                     $form->addRow()->addHeading(__('Assessment Details'));
 
@@ -132,8 +133,9 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write_data.php') =
                                 ->setClass('textCenter')
                                 ->colSpan(3);
 
+                        $checkAll = $form->getFactory()->createCheckbox('checkAll')->setClass('ml-2 checkall')->setOuterClass('inline-flex align-middle');
                         $header = $table->addHeaderRow();
-                            $header->addContent(__('Complete'))->setClass('textCenter');
+                            $header->addContent(__('Complete'))->setClass('text-right')->append($checkAll->getOutput());
                             $header->addContent(__('Rubric'))->setClass('textCenter');
                     }
 
@@ -148,9 +150,9 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write_data.php') =
                             ->wrap('<strong>', '</strong>')
                             ->prepend($count.') ');
 
-                        $row->addCheckbox('complete'.$count)->setValue('Y')->checked($student['complete'])->setClass('textCenter');
+                        $row->addCheckbox('complete'.$count)->setValue('Y')->checked($student['complete'])->setClass('textCenter bulkCheckbox');
 
-                        $row->addWebLink('<img title="'.__('Mark Rubric').'" src="./themes/'.$session->get('gibbonThemeName').'/img/rubric.png" style="margin-left:4px;"/>')
+                        $row->addWebLink(icon('solid', 'markbook', 'size-6 text-gray-500 hover:text-gray-700'))
                         ->setURL($session->get('absoluteURL').'/fullscreen.php?q=/modules/'.$session->get('module').'/atl_write_rubric.php')
                         ->setClass('thickbox textCenter')
                         ->addParam('gibbonRubricID', $values['gibbonRubricID'])
