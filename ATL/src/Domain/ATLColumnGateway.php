@@ -21,7 +21,7 @@ class ATLColumnGateway extends QueryableGateway
 
     public function getATLRubricByStudent($gibbonSchoolYearID, $gibbonPersonID, $roleCategory = 'Other')
     {
-        $data = array('gibbonSchoolYearID' => $gibbonSchoolYearID, 'gibbonPersonID' => $gibbonPersonID);
+        $data = ['gibbonSchoolYearID' => $gibbonSchoolYearID, 'gibbonPersonID' => $gibbonPersonID];
         $sql = "SELECT
                 gibbonPerson.gibbonPersonID,
                 surname,
@@ -36,8 +36,7 @@ class ATLColumnGateway extends QueryableGateway
                 JOIN gibbonCourse ON (gibbonCourse.gibbonCourseID=gibbonCourseClass.gibbonCourseID AND gibbonCourse.gibbonSchoolYearID=gibbonStudentEnrolment.gibbonSchoolYearID)
                 JOIN atlColumn ON (atlColumn.gibbonCourseClassID=gibbonCourseClass.gibbonCourseClassID)
                 JOIN gibbonRubric ON (gibbonRubric.gibbonRubricID=atlColumn.gibbonRubricID)
-            WHERE status='Full'
-                AND gibbonStudentEnrolment.gibbonSchoolYearID=:gibbonSchoolYearID
+            WHERE gibbonStudentEnrolment.gibbonSchoolYearID=:gibbonSchoolYearID
                 AND gibbonPerson.gibbonPersonID=:gibbonPersonID 
                 AND gibbonRubric.active='Y'";
 
