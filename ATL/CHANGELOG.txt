@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+v1.6.07
+-------
+Added a fix to display the ATL Chart for students with "Left" status
+
 v1.6.06
 -------
 Fix sidebarExtra function to display class name correctly
