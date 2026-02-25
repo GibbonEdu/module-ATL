@@ -26,12 +26,6 @@ use Gibbon\Services\Format;
 //Module includes
 include './modules/'.$session->get('module').'/moduleFunctions.php';
 
-echo "<script type='text/javascript'>";
-    echo '$(document).ready(function(){';
-        echo "autosize($('textarea'));";
-    echo '});';
-echo '</script>';
-
 if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write_data.php') == false) {
     //Acess denied
     echo "<div class='error'>";
