@@ -23,11 +23,11 @@ use Gibbon\Forms\DatabaseFormFactory;
 use Gibbon\Forms\Form;
 use Gibbon\Services\Format;
 
-//Module includes
+// Module includes
 include './modules/'.$session->get('module').'/moduleFunctions.php';
 
 if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write_data.php') == false) {
-    //Acess denied
+    // Access denied
     echo "<div class='error'>";
     echo __('You do not have access to this action.');
     echo '</div>';
@@ -84,7 +84,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write_data.php') =
                     echo 'The selected column does not exist, or you do not have access to it.';
                     echo '</div>';
                 } else {
-                    //Let's go!
+                    // Let's go!
                     $class = $result->fetch();
                     $values = $result2->fetch();
 
@@ -168,10 +168,6 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write_data.php') =
                         $row->addLabel('completeDate', __('Go Live Date'))->prepend('1. ')->append('<br/>'.__('2. Column is hidden until date is reached.'));
                         $row->addDate('completeDate');
 
-                    if (!empty($values['completeDate']) && $values['completeDate'] > date('Y-m-d', strtotime('+1 day'))) {
-                        $row = $form->addRow()->addAlert(__m('Your Go Live date is more than 24 hours in the future. If you have completed this ATL, be sure to update your Go Live date to set it to the next school day.'), 'message');
-                    }
-
                     $row = $form->addRow();
                         $row->addSubmit();
 
@@ -182,7 +178,7 @@ if (isActionAccessible($guid, $connection2, '/modules/ATL/atl_write_data.php') =
             }
         }
 
-        //Print sidebar
+        // Print sidebar
         $session->set('sidebarExtra', sidebarExtraATL($guid, $connection2, $gibbonCourseClassID, 'write', $highestAction));
     }
 }
